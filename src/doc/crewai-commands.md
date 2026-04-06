@@ -1,5 +1,8 @@
 # CrewAI CLI Commands Reference
 
+# `C:/Users/Abcom/Desktop/CrewAI/research_and_blog_crew" && uv sync --reinstall-package ants-platform `
+
+
 ## Core Commands
 
 | Command | Use Case |
