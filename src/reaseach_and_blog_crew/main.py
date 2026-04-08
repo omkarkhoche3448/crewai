@@ -1,3 +1,4 @@
+import os
 from ants_platform import AntsPlatform
 from ants_platform.crewai import EventListener
 
@@ -8,9 +9,15 @@ def run():
     """
     Run the crew.
     """
-    # Initialize Ants Platform observability
-    ants_platform = AntsPlatform(timeout=30)
+    # Initialize Ants Platform — reads ANTS_PLATFORM_* env vars injected by platform
+    ants_platform = AntsPlatform(
+        public_key=os.environ.get("ANTS_PLATFORM_PUBLIC_KEY"),
+        secret_key=os.environ.get("ANTS_PLATFORM_SECRET_KEY"),
+        host=os.environ.get("ANTS_PLATFORM_HOST", "https://app.agenticants.ai"),
+        timeout=30,
+    )
     listener = EventListener(
+        public_key=os.environ.get("ANTS_PLATFORM_PUBLIC_KEY"),
         agent_name="research_and_blog_crew",
         agent_display_name="Research & Blog Crew v1.0",
     )
