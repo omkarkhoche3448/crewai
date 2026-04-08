@@ -2,6 +2,7 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
+import atexit
 from ants_platform import AntsPlatform
 from ants_platform.crewai import EventListener
 
@@ -12,6 +13,10 @@ _listener = EventListener(
     agent_name="research_and_blog_crew",
     agent_display_name="Research & Blog Crew v1.0",
 )
+
+# Ensure flush is always called on process exit
+# (works both locally via main.py and on CrewAI platform)
+atexit.register(_ants_platform.flush)
 
 # define the class for our crew
 @CrewBase
