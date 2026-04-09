@@ -20,13 +20,22 @@ _sk = os.environ.get("ANTS_PLATFORM_SECRET_KEY")
 _host = "https://app.agenticants.ai"
 
 _logger.warning("ANTS_CREW_INIT PK=%s SK=%s HOST_HARDCODED=%s ENV_HOST=%s", bool(_pk), bool(_sk), _host, os.environ.get("ANTS_PLATFORM_HOST", "NOT_SET"))
+_logger.warning("ANTS_CREW_INIT PK_VAL=%s SK_LEN=%s", _pk[:20] if _pk else "NONE", len(_sk) if _sk else 0)
 
 _ants_client = AntsPlatform(public_key=_pk, secret_key=_sk, host=_host, timeout=30)
+
+# Debug: check what the SDK actually stored
+_logger.warning("ANTS_CLIENT_HOST=%s TRACING=%s", _ants_client._host, _ants_client._tracing_enabled if hasattr(_ants_client, '_tracing_enabled') else "?")
+
 _ants_listener = EventListener(
     public_key=_pk,
     agent_name="research_and_blog_crew",
     agent_display_name="Research & Blog Crew v1.0",
 )
+
+# Debug: check what host the listener's client is using
+_logger.warning("ANTS_LISTENER_HOST=%s", _ants_listener.client._host if hasattr(_ants_listener.client, '_host') else "?")
+
 atexit.register(_ants_client.flush)
 
 _logger.warning("ANTS_CREW_INIT_DONE")
