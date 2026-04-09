@@ -1,8 +1,11 @@
 import os
-import sys
+import logging
 from ants_platform import AntsPlatform
 from ants_platform.crewai import EventListener
 from reaseach_and_blog_crew.crew import ResearchAndBlogCrew
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.WARNING)
 
 
 def run():
@@ -13,10 +16,10 @@ def run():
     secret_key = os.environ.get("ANTS_PLATFORM_SECRET_KEY")
     host = os.environ.get("ANTS_PLATFORM_HOST", "https://app.agenticants.ai")
 
-    # Debug: write to stderr (unbuffered) so it shows in platform logs
-    print(f"[ANTS ENV DEBUG] PUBLIC_KEY={'SET('+public_key[:12]+'...)' if public_key else 'NONE'}", file=sys.stderr, flush=True)
-    print(f"[ANTS ENV DEBUG] SECRET_KEY={'SET' if secret_key else 'NONE'}", file=sys.stderr, flush=True)
-    print(f"[ANTS ENV DEBUG] HOST={host}", file=sys.stderr, flush=True)
+    # Debug: log using WARNING level so it definitely shows in platform logs
+    logger.warning("[ANTS ENV] PUBLIC_KEY=%s", "SET("+public_key[:12]+"...)" if public_key else "NONE")
+    logger.warning("[ANTS ENV] SECRET_KEY=%s", "SET" if secret_key else "NONE")
+    logger.warning("[ANTS ENV] HOST=%s", host)
 
     ants_platform = AntsPlatform(
         public_key=public_key,
